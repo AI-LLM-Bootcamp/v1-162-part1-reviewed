@@ -18,7 +18,15 @@ loader = DirectoryLoader(
 )
 docs = loader.load()
 
-embeddings = OpenAIEmbeddings(model='text-embedding-ada-002', )
+# Original version: this script used text-embedding-ada-002. That model still
+# works, but OpenAI now presents text-embedding-3-small as its current small
+# embedding model: it performs a bit better and costs less. Its vectors have
+# the same length (1536). Use the same model as app/rag_chain.py.
+# If you loaded the PDFs before with the old model, run this script again:
+# pre_delete_collection=True replaces the old vectors with the new ones.
+EMBEDDING_MODEL = "text-embedding-3-small"
+
+embeddings = OpenAIEmbeddings(model=EMBEDDING_MODEL)
 
 text_splitter = SemanticChunker(
     embeddings=embeddings
